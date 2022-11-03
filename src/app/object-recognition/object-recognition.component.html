@@ -1,0 +1,106 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="space-around start"
+  fxLayoutGap="15px"
+  class="main-content"
+>
+  <div fxFlex="initial" class="box--full-width">
+    <h1 class="mat-display-1">Recognize object</h1>
+  </div>
+  <div fxFlex="initial" class="box--full-width">
+    <div
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutAlign="start start"
+      fxLayoutGap="20px"
+    >
+      <div
+        fxFlex="100"
+        fxFlex.gt-sm="40"
+        fxLayout="row"
+        class="box--full-width"
+      >
+        <mat-form-field fxFlex="100">
+          <mat-label>Upload an image</mat-label>
+          <ngx-mat-file-input
+            #removableInput
+            placeholder="Upload an image"
+            [accept]="'.jpeg, .jpg, .png'"
+            (change)="onFileSelectionChange($event)"
+          ></ngx-mat-file-input>
+          <button
+            mat-icon-button
+            matSuffix
+            *ngIf="!removableInput.empty; else initialIcon"
+            (click)="clearRemovableInput($event)"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+          <ng-template #initialIcon>
+            <mat-icon matSuffix>attachment</mat-icon>
+          </ng-template>
+          <mat-hint>file accepted: jpg, jpeg, png</mat-hint>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="20">
+        <div fxLayout="row" fxLayoutGap="10px">
+          <button
+            mat-raised-button
+            color="accent"
+            [disabled]="image === null"
+            (click)="recognizeObjects()"
+          >
+            Recognize
+          </button>
+          <button
+            mat-button
+            *ngIf="image !== null"
+            (click)="clearRemovableInput($event)"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="grow" class="box--full-width" fxLayout="column">
+    <div
+      fxFlex
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutAlign="start start"
+      fxLayoutAlign.gt-sm="start center"
+      fxLayoutGap="15px"
+    >
+      <div fxFlex>
+        <h3 class="mat-title">Preview</h3>
+        <div *ngIf="image === null; else renderImage">
+          <span class="caption text--grey">No image selected</span>
+        </div>
+        <ng-template #renderImage>
+          <div class="preview__container box--full-width">
+            <img
+              [src]="image"
+              alt="Image to recognize"
+              class="preview__image"
+            />
+          </div>
+        </ng-template>
+      </div>
+      <div fxFlex="15"></div>
+      <div fxFlex="50" fxFill>
+        <h3 class="mat-title">Results</h3>
+        <div *ngIf="results.length === 0; else renderResults">
+          <span class="caption text--grey">No results</span>
+        </div>
+        <ng-template #renderResults>
+          <mat-list role="list">
+            <mat-list-item *ngFor="let result of results" role="listitem">{{
+              result
+            }}</mat-list-item>
+          </mat-list>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
