@@ -95,9 +95,11 @@
         </div>
         <ng-template #renderResults>
           <mat-list role="list">
-            <mat-list-item *ngFor="let result of results" role="listitem">{{
-              result
-            }}</mat-list-item>
+            <mat-list-item
+              *ngFor="let result of results | sortConfidence"
+              role="listitem"
+              >{{ result.description }} - {{ result.score | number }}
+            </mat-list-item>
           </mat-list>
         </ng-template>
       </div>

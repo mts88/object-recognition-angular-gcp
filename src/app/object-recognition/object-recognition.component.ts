@@ -1,6 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FileInputComponent } from 'ngx-material-file-input';
+import { first } from 'rxjs';
+import {
+  LabelDetected,
+  ObjectRecognitionFunctionService,
+} from '../object-recognition-function.service';
 import { ObjectDialogComponent } from './../object-dialog/object-dialog.component';
 
 @Component({
@@ -9,13 +14,16 @@ import { ObjectDialogComponent } from './../object-dialog/object-dialog.componen
   styleUrls: ['./object-recognition.component.scss'],
 })
 export class ObjectRecognitionComponent {
-  results: string[] = [];
+  results: LabelDetected[] = [];
 
   image: string | null = null;
 
   @ViewChild('removableInput') removableInput!: FileInputComponent;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private objectRecognitionFunctionService: ObjectRecognitionFunctionService
+  ) {}
 
   /**
    * Handle file selection change
@@ -45,17 +53,26 @@ export class ObjectRecognitionComponent {
       this.removableInput.clear($event);
     }
     this.image = null;
+    this.results = [];
   }
 
   /**
    * Start object recognizion, reading from uploaded {@link image}
    */
   recognizeObjects() {
-    // TODO: implement here connector with Object Detection service
-    this.dialog.open(ObjectDialogComponent, {
-      width: '450px',
-      enterAnimationDuration: '0ms',
-      exitAnimationDuration: '500ms',
-    });
+    if (this.image !== null) {
+      this.objectRecognitionFunctionService
+        .recognizeObjectInImage(this.image)
+        .pipe(first())
+        .subscribe((results) => {
+          this.results = results;
+        });
+    } else {
+      this.dialog.open(ObjectDialogComponent, {
+        width: '450px',
+        enterAnimationDuration: '0ms',
+        exitAnimationDuration: '500ms',
+      });
+    }
   }
 }
