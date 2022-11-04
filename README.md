@@ -10,3 +10,11 @@ Google Cloud Platform offers a seamless product to easily perform Object detecti
 ## Description server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Steps
+
+- Add [AngularFire](https://github.com/angular/angularfire), use interactive cli to setup project `ng add @angular/fire`
+- Setup AppModule as [AngularFire Functions](https://github.com/angular/angularfire/blob/master/docs/functions/functions.md)
+- Setup local emulator for Firebase
+- Create local service to communicate with remote function
+- Clean base64 image
