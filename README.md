@@ -2,6 +2,9 @@
 
 This project is created for GDG Palermo Community Showcase - 22 Nov 2022.
 
+## Guide
+Full guide on [Medium](https://mts88.medium.com/object-detection-with-angular-firebase-and-google-cloud-vision-acb69bc5f07)
+
 ## Description
 
 Object recognition usually means a lot of work, commitment and teams' headache: ML, training image set, cost of infrastructure, etc.
